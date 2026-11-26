@@ -13,6 +13,7 @@ IMAGE="zmkfirmware/zmk-build-arm:stable"
 WORKSPACE_DIR="$REPO_ROOT/.build/zmk-ws"
 BUILDS_DIR="$REPO_ROOT/.build/builds"
 OUT_DIR="$REPO_ROOT/.build/firmware"
+CONTAINER_HOME="$REPO_ROOT/.build/container-home"
 
 FORCE_UPDATE=0
 CLEAN=0
@@ -29,7 +30,7 @@ if [ "$CLEAN" -eq 1 ]; then
   rm -rf "$REPO_ROOT/.build"
 fi
 
-mkdir -p "$WORKSPACE_DIR" "$BUILDS_DIR" "$OUT_DIR"
+mkdir -p "$WORKSPACE_DIR" "$BUILDS_DIR" "$OUT_DIR" "$CONTAINER_HOME"
 
 MATRIX_PY="$REPO_ROOT/scripts/zmk_matrix.py"
 
@@ -40,8 +41,12 @@ run_in_container() {
   # The repo is bind-mounted from macOS (owned by the host UID) but the
   # container runs as root, so git refuses the west-managed repos under
   # .build/zmk-ws as "dubious ownership" unless we allow them explicitly.
+  # $HOME is also mounted persistently: `west zephyr-export` registers the
+  # Zephyr CMake package there, and that registration must survive between
+  # --rm container runs for later `west build` steps to find it.
   docker run --rm \
     -v "$REPO_ROOT:/workspace" \
+    -v "$CONTAINER_HOME:/root" \
     -w /workspace \
     "$IMAGE" \
     bash -euc "git config --global --add safe.directory '*' && $1"
@@ -68,6 +73,10 @@ fi
 if [ "$FORCE_UPDATE" -eq 1 ]; then
   echo "Running west update (this fetches ZMK + Zephyr, can take a while on first run)..."
   run_in_container "cd /workspace/.build/zmk-ws && west update --fetch-opt=--filter=tree:0"
+fi
+
+if [ ! -d "$CONTAINER_HOME/.cmake/packages/Zephyr" ]; then
+  echo "Running west zephyr-export (registers the Zephyr CMake package)..."
   run_in_container "cd /workspace/.build/zmk-ws && west zephyr-export"
 fi
 

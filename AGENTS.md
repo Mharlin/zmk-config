@@ -16,11 +16,11 @@ ZMK firmware config for a Keebart **Piantor Pro BT, 36-key (5-column)** wireless
 
 ## Building
 - GitHub Actions: `gh workflow run "Build ZMK firmware" -R Mharlin/zmk-config`, then `gh run watch <id> -R Mharlin/zmk-config` and `gh run download <id> -R Mharlin/zmk-config`. ~3 min. Artifacts are the `.uf2` files.
-- Local build (UNTESTED end to end when committed): `scripts/build-firmware.sh` runs the same build in Docker (`zmkfirmware/zmk-build-arm:stable`), reading `build.yaml` via `scripts/zmk_matrix.py`.
-  - Needs Docker running and python3. First run downloads ZMK + Zephyr (~1 GB, a few minutes) into `.build/` (gitignored, never commit it).
+- Local build (tested, verified byte-identical to CI): `scripts/build-firmware.sh` runs the same build in Docker (`zmkfirmware/zmk-build-arm:stable`), reading `build.yaml` via `scripts/zmk_matrix.py`.
+  - Needs Docker running and python3. First run downloads ZMK + Zephyr (~1 GB, several minutes, more if any Zephyr HAL repo fetch is flaky and needs a retry) into `.build/` (gitignored, never commit it).
   - Flags: `--update` forces `west update`, `--clean` wipes `.build/` and rebuilds from scratch.
-  - Output: `.build/firmware/*.uf2` (left/right + settings_reset).
-  - A previous run failed in `west update` with a git "dubious ownership" error inside the container; the script now sets `git config --global --add safe.directory '*'`. If it still fails, fall back to the GitHub Actions build above and fix the script.
+  - Output: `.build/firmware/*.uf2` (left/right + settings_reset). Confirmed `cmp`-identical to the artifacts from the matching GitHub Actions run.
+  - Two container quirks the script works around: (1) `west update` hits a git "dubious ownership" error on the bind-mounted repo, fixed by `git config --global --add safe.directory '*'` on every container invocation; (2) `west zephyr-export` registers the Zephyr CMake package under `$HOME`, which doesn't persist across `--rm` containers unless `$HOME` is bind-mounted too (`.build/container-home/`) — without that, `west build` fails with `find_package(Zephyr)` not found.
 
 ## Flashing (status: NOT yet flashed with the latest firmware)
 Flashing needs USB (the bootloader is a USB drive; no flashing over Bluetooth).
