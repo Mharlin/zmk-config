@@ -8,3 +8,4 @@
 - Flash: double-tap reset on a half, drag the matching `.uf2` onto the drive that appears. First time (or if halves won't pair), flash the `*_settings_reset` file to both halves, then the normal files.
 - Bluetooth: Fun layer, top row of the right half: BT 1-4 select profile, the key under the right-hand M position clears the current profile.
 - Double-tap Del sends F13 (map F13 to Fn in Karabiner-Elements).
+- Bootloader (no reset button needed): hold the Esc thumb (Media layer), then press the Q-position key to flash the left half or the M-position key to flash the right half. It resets the half the key sits on, so use the matching half's key.
