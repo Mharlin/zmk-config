@@ -1,6 +1,6 @@
 /*
  * Piantor Pro BT - port of the Kyria "mharlin" QMK keymap (Colemak-DH, home row mods).
- * 42-key layout: three 6-column rows + 3 thumbs per side. Outer columns are unused (&none).
+ * 36-key layout: three 5-column rows + 3 thumbs per side.
  */
 
 #include <behaviors.dtsi>
@@ -17,11 +17,11 @@
 #define FUN    6
 #define MEDIA  7
 
-// Key positions (6-column layout)
-#define KEYS_L   0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29
-#define KEYS_R   6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35
-#define THUMBS_L 36 37 38
-#define THUMBS_R 39 40 41
+// Key positions (5-column, 36-key layout)
+#define KEYS_L   0 1 2 3 4 10 11 12 13 14 20 21 22 23 24
+#define KEYS_R   5 6 7 8 9 15 16 17 18 19 25 26 27 28 29
+#define THUMBS_L 30 31 32
+#define THUMBS_R 33 34 35
 
 #define SC_REDO  &kp LG(LS(Z))
 #define SC_PASTE &kp LG(V)
@@ -31,7 +31,7 @@
 
 / {
     chosen {
-        zmk,physical-layout = &default_layout;
+        zmk,physical-layout = &five_col_layout;
     };
 
     behaviors {
@@ -217,9 +217,9 @@
         base_layer {
             display-name = "Base";
             bindings = <
-&none  &kp Q           &kp W           &kp F           &kp P           &kp B       &kp J  &kp L           &kp U           &kp Y           &kp SQT          &none
-&none  &hml LGUI A     &hml LALT R     &hml LCTRL S    &hml LSHFT T    &kp G       &kp M  &hmr LSHFT N    &hmr LCTRL E    &hmr LALT I     &hmr LGUI O      &none
-&none  &lt BUTTON Z    &hml RALT X     &kp C           &kp D           &kp V       &kp K  &kp H           &kp COMMA       &hmr RALT DOT   &lt BUTTON FSLH  &none
+&kp Q  &kp W  &kp F  &kp P  &kp B  &kp J  &kp L  &kp U  &kp Y  &kp SQT
+&hml LGUI A  &hml LALT R  &hml LCTRL S  &hml LSHFT T  &kp G  &kp M  &hmr LSHFT N  &hmr LCTRL E  &hmr LALT I  &hmr LGUI O
+&lt BUTTON Z  &hml RALT X  &kp C  &kp D  &kp V  &kp K  &kp H  &kp COMMA  &hmr RALT DOT  &lt BUTTON FSLH
                                        &lt MEDIA ESC   &lt NAV SPACE   &lt MOUSE TAB   &lt SYM RET   &lt NUM BSPC   &del_fn FUN 0
             >;
         };
@@ -227,9 +227,9 @@
         nav_layer {
             display-name = "Nav";
             bindings = <
-&none  &app_slack  &app_ghostty  &app_vscode  &app_intellij  &app_zen        SC_REDO      SC_PASTE     SC_COPY      SC_CUT       SC_UNDO      &none
-&none  &kp LGUI    &kp LALT      &kp LCTRL    &kp LSHFT      &app_logseq     &caps_word &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &none
-&none  &none       &td_base      &td_num      &td_nav        &app_claude     &kp INS   &kp HOME  &kp PG_DN &kp PG_UP &kp END   &none
+&app_slack  &app_ghostty  &app_vscode  &app_intellij  &app_zen  SC_REDO  SC_PASTE  SC_COPY  SC_CUT  SC_UNDO
+&kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &app_logseq  &caps_word  &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT
+&none  &td_base  &td_num  &td_nav  &app_claude  &kp INS  &kp HOME  &kp PG_DN  &kp PG_UP  &kp END
                                  &none        &none          &none           &kp RET   &kp BSPC  &kp DEL
             >;
         };
@@ -237,9 +237,9 @@
         mouse_layer {
             display-name = "Mouse";
             bindings = <
-&none  &none     &none      &none      &td_base   &none     SC_REDO     SC_PASTE            SC_COPY             SC_CUT              SC_UNDO             &none
-&none  &kp LGUI  &kp LALT   &kp LCTRL  &kp LSHFT  &none     &none    &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP     &mmv MOVE_RIGHT  &none
-&none  &none     &kp RALT   &td_sym    &td_mouse  &none     &none    &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT  &none
+&none  &none  &none  &td_base  &none  SC_REDO  SC_PASTE  SC_COPY  SC_CUT  SC_UNDO
+&kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &none  &none  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT
+&none  &kp RALT  &td_sym  &td_mouse  &none  &none  &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_UP  &msc SCRL_RIGHT
                             &none      &none      &none     &mkp MB2 &mkp MB1         &mkp MB3
             >;
         };
@@ -247,9 +247,9 @@
         button_layer {
             display-name = "Button";
             bindings = <
-&none  SC_UNDO      SC_CUT        SC_COPY       SC_PASTE      SC_REDO      SC_REDO     SC_PASTE     SC_COPY      SC_CUT       SC_UNDO      &none
-&none  &kp LGUI  &kp LALT   &kp LCTRL  &kp LSHFT  &none     &none    &kp LSHFT &kp LCTRL &kp LALT  &kp LGUI  &none
-&none  SC_UNDO      SC_CUT        SC_COPY       SC_PASTE      SC_REDO      SC_REDO     SC_PASTE     SC_COPY      SC_CUT       SC_UNDO      &none
+SC_UNDO  SC_CUT  SC_COPY  SC_PASTE  SC_REDO  SC_REDO  SC_PASTE  SC_COPY  SC_CUT  SC_UNDO
+&kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &none  &none  &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI
+SC_UNDO  SC_CUT  SC_COPY  SC_PASTE  SC_REDO  SC_REDO  SC_PASTE  SC_COPY  SC_CUT  SC_UNDO
                             &mkp MB3   &mkp MB1   &mkp MB2  &mkp MB2 &mkp MB1  &mkp MB3
             >;
         };
@@ -257,9 +257,9 @@
         num_layer {
             display-name = "Num";
             bindings = <
-&none  &kp LBKT  &kp N7      &kp N8      &kp N9            &kp RBKT   &none  &td_base  &kp LA(A)  &a_um_mm  &o_um_mm   &none
-&none  &kp SEMI  &kp N4      &kp N5      &hml LSHFT N6     &kp EQUAL  &none  &kp LSHFT &kp LCTRL  &sk RALT  &kp LGUI   &none
-&none  &kp GRAVE &kp N1      &kp N2      &kp N3            &kp BSLH   &none  &td_num   &td_nav    &kp RALT  &none      &none
+&kp LBKT  &kp N7  &kp N8  &kp N9  &kp RBKT  &none  &td_base  &kp LA(A)  &a_um_mm  &o_um_mm
+&kp SEMI  &kp N4  &kp N5  &hml LSHFT N6  &kp EQUAL  &none  &kp LSHFT  &kp LCTRL  &sk RALT  &kp LGUI
+&kp GRAVE  &kp N1  &kp N2  &kp N3  &kp BSLH  &none  &td_num  &td_nav  &kp RALT  &none
                              &kp DOT     &kp N0            &kp MINUS  &none  &none     &none
             >;
         };
@@ -267,9 +267,9 @@
         sym_layer {
             display-name = "Sym";
             bindings = <
-&none  &kp LBRC   &kp AMPS   &kp STAR   &kp LPAR   &kp RBRC    &none  &td_base  &none    &none     &none  &none
-&none  &kp COLON  &kp DLLR   &kp PRCNT  &kp CARET  &kp PLUS    &none  &kp LSHFT &none    &none     &none  &none
-&none  &kp TILDE  &kp EXCL   &kp AT     &kp HASH   &kp PIPE    &none  &td_sym   &td_mouse &kp RALT  &none  &none
+&kp LBRC  &kp AMPS  &kp STAR  &kp LPAR  &kp RBRC  &none  &td_base  &none  &none  &none
+&kp COLON  &kp DLLR  &kp PRCNT  &kp CARET  &kp PLUS  &none  &kp LSHFT  &none  &none  &none
+&kp TILDE  &kp EXCL  &kp AT  &kp HASH  &kp PIPE  &none  &td_sym  &td_mouse  &kp RALT  &none
                              &kp LPAR   &kp RPAR   &kp UNDER   &none  &none     &none
             >;
         };
@@ -277,9 +277,9 @@
         fun_layer {
             display-name = "Fun";
             bindings = <
-&none  &kp F12  &kp F7  &kp F8  &kp F9  &kp PSCRN       &bt BT_SEL 0  &td_base   &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR
-&none  &kp F11  &kp F4  &kp F5  &kp F6  &kp SLCK        &none         &kp LSHFT  &kp LCTRL     &kp LALT      &kp LGUI      &none
-&none  &kp F10  &kp F1  &kp F2  &kp F3  &kp PAUSE_BREAK &none         &td_fun    &td_media     &kp RALT      &none         &none
+&kp F12  &kp F7  &kp F8  &kp F9  &kp PSCRN  &bt BT_SEL 0  &td_base  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3
+&kp F11  &kp F4  &kp F5  &kp F6  &kp SLCK  &bt BT_CLR  &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI
+&kp F10  &kp F1  &kp F2  &kp F3  &kp PAUSE_BREAK  &none  &td_fun  &td_media  &kp RALT  &none
                                 &kp K_APP  &kp SPACE  &kp TAB  &none  &none  &none
             >;
         };
@@ -287,9 +287,9 @@
         media_layer {
             display-name = "Media";
             bindings = <
-&none  &none     &none      &none      &td_base   &none     SC_REDO     SC_PASTE            SC_COPY             SC_CUT              SC_UNDO             &none
-&none  &kp LGUI  &kp LALT   &kp LCTRL  &kp LSHFT  &none     &none    &kp C_PREV       &kp C_VOL_DN     &kp C_VOL_UP     &kp C_NEXT       &none
-&none  &none     &kp RALT   &td_sym    &td_mouse  &none     &none    &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT  &none
+&none  &none  &none  &td_base  &none  SC_REDO  SC_PASTE  SC_COPY  SC_CUT  SC_UNDO
+&kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &none  &none  &kp C_PREV  &kp C_VOL_DN  &kp C_VOL_UP  &kp C_NEXT
+&none  &kp RALT  &td_sym  &td_mouse  &none  &none  &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_UP  &msc SCRL_RIGHT
                             &none      &none      &none     &mkp MB2 &mkp MB1         &kp C_MUTE
             >;
         };
