@@ -23,11 +23,11 @@
 #define THUMBS_L 36 37 38
 #define THUMBS_R 39 40 41
 
-#define REDO  &kp LG(LS(Z))
-#define PASTE &kp LG(V)
-#define COPY  &kp LG(C)
-#define CUT   &kp LG(X)
-#define UNDO  &kp LG(Z)
+#define SC_REDO  &kp LG(LS(Z))
+#define SC_PASTE &kp LG(V)
+#define SC_COPY  &kp LG(C)
+#define SC_CUT   &kp LG(X)
+#define SC_UNDO  &kp LG(Z)
 
 / {
     chosen {
@@ -227,7 +227,7 @@
         nav_layer {
             display-name = "Nav";
             bindings = <
-&none  &app_slack  &app_ghostty  &app_vscode  &app_intellij  &app_zen        REDO      PASTE     COPY      CUT       UNDO      &none
+&none  &app_slack  &app_ghostty  &app_vscode  &app_intellij  &app_zen        SC_REDO      SC_PASTE     SC_COPY      SC_CUT       SC_UNDO      &none
 &none  &kp LGUI    &kp LALT      &kp LCTRL    &kp LSHFT      &app_logseq     &caps_word &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &none
 &none  &none       &td_base      &td_num      &td_nav        &app_claude     &kp INS   &kp HOME  &kp PG_DN &kp PG_UP &kp END   &none
                                  &none        &none          &none           &kp RET   &kp BSPC  &kp DEL
@@ -237,7 +237,7 @@
         mouse_layer {
             display-name = "Mouse";
             bindings = <
-&none  &none     &none      &none      &td_base   &none     REDO     PASTE            COPY             CUT              UNDO             &none
+&none  &none     &none      &none      &td_base   &none     SC_REDO     SC_PASTE            SC_COPY             SC_CUT              SC_UNDO             &none
 &none  &kp LGUI  &kp LALT   &kp LCTRL  &kp LSHFT  &none     &none    &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP     &mmv MOVE_RIGHT  &none
 &none  &none     &kp RALT   &td_sym    &td_mouse  &none     &none    &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT  &none
                             &none      &none      &none     &mkp MB2 &mkp MB1         &mkp MB3
@@ -247,9 +247,9 @@
         button_layer {
             display-name = "Button";
             bindings = <
-&none  UNDO      CUT        COPY       PASTE      REDO      REDO     PASTE     COPY      CUT       UNDO      &none
+&none  SC_UNDO      SC_CUT        SC_COPY       SC_PASTE      SC_REDO      SC_REDO     SC_PASTE     SC_COPY      SC_CUT       SC_UNDO      &none
 &none  &kp LGUI  &kp LALT   &kp LCTRL  &kp LSHFT  &none     &none    &kp LSHFT &kp LCTRL &kp LALT  &kp LGUI  &none
-&none  UNDO      CUT        COPY       PASTE      REDO      REDO     PASTE     COPY      CUT       UNDO      &none
+&none  SC_UNDO      SC_CUT        SC_COPY       SC_PASTE      SC_REDO      SC_REDO     SC_PASTE     SC_COPY      SC_CUT       SC_UNDO      &none
                             &mkp MB3   &mkp MB1   &mkp MB2  &mkp MB2 &mkp MB1  &mkp MB3
             >;
         };
@@ -287,7 +287,7 @@
         media_layer {
             display-name = "Media";
             bindings = <
-&none  &none     &none      &none      &td_base   &none     REDO     PASTE            COPY             CUT              UNDO             &none
+&none  &none     &none      &none      &td_base   &none     SC_REDO     SC_PASTE            SC_COPY             SC_CUT              SC_UNDO             &none
 &none  &kp LGUI  &kp LALT   &kp LCTRL  &kp LSHFT  &none     &none    &kp C_PREV       &kp C_VOL_DN     &kp C_VOL_UP     &kp C_NEXT       &none
 &none  &none     &kp RALT   &td_sym    &td_mouse  &none     &none    &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT  &none
                             &none      &none      &none     &mkp MB2 &mkp MB1         &kp C_MUTE
