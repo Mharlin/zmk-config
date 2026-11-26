@@ -16,7 +16,11 @@ ZMK firmware config for a Keebart **Piantor Pro BT, 36-key (5-column)** wireless
 
 ## Building
 - GitHub Actions: `gh workflow run "Build ZMK firmware" -R Mharlin/zmk-config`, then `gh run watch <id> -R Mharlin/zmk-config` and `gh run download <id> -R Mharlin/zmk-config`. ~3 min. Artifacts are the `.uf2` files.
-- A local build setup may exist (see README.md); it was being set up in a separate session and is not guaranteed to be finished.
+- Local build (UNTESTED end to end when committed): `scripts/build-firmware.sh` runs the same build in Docker (`zmkfirmware/zmk-build-arm:stable`), reading `build.yaml` via `scripts/zmk_matrix.py`.
+  - Needs Docker running and python3. First run downloads ZMK + Zephyr (~1 GB, a few minutes) into `.build/` (gitignored, never commit it).
+  - Flags: `--update` forces `west update`, `--clean` wipes `.build/` and rebuilds from scratch.
+  - Output: `.build/firmware/*.uf2` (left/right + settings_reset).
+  - A previous run failed in `west update` with a git "dubious ownership" error inside the container; the script now sets `git config --global --add safe.directory '*'`. If it still fails, fall back to the GitHub Actions build above and fix the script.
 
 ## Flashing (status: NOT yet flashed with the latest firmware)
 Flashing needs USB (the bootloader is a USB drive; no flashing over Bluetooth).
