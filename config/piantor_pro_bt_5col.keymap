@@ -287,8 +287,8 @@ SC_UNDO  SC_CUT  SC_COPY  SC_PASTE  SC_REDO  SC_REDO  SC_PASTE  SC_COPY  SC_CUT 
         media_layer {
             display-name = "Media";
             bindings = <
-&none  &none  &none  &td_base  &none  SC_REDO  SC_PASTE  SC_COPY  SC_CUT  SC_UNDO
-&kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &none  &none  &kp C_PREV  &kp C_VOL_DN  &kp C_VOL_UP  &kp C_NEXT
+&bootloader  &none  &none  &td_base  &none  SC_REDO  SC_PASTE  SC_COPY  SC_CUT  SC_UNDO
+&kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &none  &bootloader  &kp C_PREV  &kp C_VOL_DN  &kp C_VOL_UP  &kp C_NEXT
 &none  &kp RALT  &td_sym  &td_mouse  &none  &none  &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_UP  &msc SCRL_RIGHT
                             &none      &none      &none     &mkp MB2 &mkp MB1         &kp C_MUTE
             >;
